@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>参加確認アプリ</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha256-UzFD2WYH2U1dQpKDjjZK72VtPeWP50NoJjd26rnAdUI=" crossorigin="anonymous" />
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <% if flash[:notice] %>
+      <div class="notification is-info is-light">
+        <p class="notice"><%= flash[:notice] %></p>
+      </div>
+    <% end %>
+
+    <% if flash[:alert] %>
+      <div class="notification is-danger is-light">
+        <p class="alert"><%= alert %></p>
+      </div>
+    <% end %>
+
+     <nav class="navbar is-warning is-light" role="navigation" aria-label="main navigation">
+     <div class="navbar-brand">
+        <%= link_to root_path, class: "navbar-item" do %>
+          <h1 class="title is-3" style="font-family: cursive;">参加確認アプリ</h1>
+        <% end %>
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+             data-target="navbarBasicExample">
+             <span aria-hidden="true"></span>
+             <span aria-hidden="true"></span>
+             <span aria-hidden="true"></span>
+         </a>
+     </div>
+      <div id="navbarBasicExample" class="navbar-menu">
+         <div class="navbar-start">
+             <div class="navbar-item has-dropdown is-hoverable">
+                 <a class="navbar-link">
+                     メニュー
+                 </a>
+                  
+                <div class="navbar-dropdown">
+                  <a class="navbar-item">
+                    <%= link_to "登録者一覧", users_path, class: "button is-info is-light" %>
+                  </a>
+                </div>
+            </div>
+          </div>
+      <% if user_signed_in? %>
+      <div class="navbar-end">
+             <div class="navbar-item">
+                 <div class="buttons">
+                     <a class="button is-primary">
+                         <strong><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "button is-info is-light" %></strong>
+                     </a>
+                 </div>
+             </div>
+         </div>
+                
+      <% else %>
+      <div class="navbar-end">
+             <div class="navbar-item">
+                 <div class="buttons">
+                     <a class="button is-primary">
+                         <strong><%= link_to "ログイン", new_user_session_path, class: "button is-info is-light" %></strong>
+                     </a>
+                     <a class="button is-light">
+                         <%= link_to "新規登録", new_user_registration_path, class: "button is-info is-light" %>
+                     </a>
+                 </div>
+             </div>
+         </div>
+          <% end %>
+          </div>
+          </div>
+    </nav>
+     <script type="text/javascript">
+     document.querySelector('.navbar-burger').addEventListener("click", toggleNav);
+
+     function toggleNav() {
+         var nav = document.querySelector('.navbar-menu');
+         if (nav.className == "navbar-menu") {
+             nav.className = "navbar-menu is-active";
+         } else {
+             nav.className = "navbar-menu";
+         }
+     }
+ </script>
+
+    <%= yield %>
+  </body>
+</html>

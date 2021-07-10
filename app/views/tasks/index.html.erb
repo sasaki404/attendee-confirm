@@ -1,0 +1,76 @@
+<section class="hero is-primary is-small">
+  <div class="hero-body">
+  <div class="container has-text-center">
+  <p class="title">
+    参加確認登録者一覧
+    </p>
+    </div>
+    
+  </div>
+</section>
+<br>
+<a href="#count" class="button is-info">参加予定者数を確認</a>
+<br>
+<% dcnt=0 %>
+<% scnt=0 %>
+<% @tasks.each do |task|%>
+<br>
+<table class="osare-table col5t">
+<thead>
+<tr>
+<th>名前</th>
+<th>参加確認</th>
+<th>参加</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th><%=task.user.name%>
+<% if current_user.id==task.user.id %>
+　　　　　　　　　　<%= link_to task_path(task), method: :delete, data: {confirm: "参加確認を取り消しますか？"}, class: "button is-text is-small" do %>
+                      <span class="panel-icon">
+                        <i class="fas fa-trash"></i>
+                      </span>取り消し
+<% end %>
+<% end %>
+</th>
+<td>
+<%if task.completed%>
+<br>
+参加
+<%else%>
+<br>
+不参加
+<%end%>
+</td>
+<td><%=task.syozoku%><br>
+<% if (task.syozoku=="土曜日") then %>
+(<%=(task.created_at-(task.created_at.wday-6).days).strftime("%Y年%-m月%-d日")%>)
+<% elsif task.syozoku=="日曜日"%>
+(<%=(task.created_at-(task.created_at.wday-7).days).strftime("%Y年%-m月%-d日")%>)
+<% end %>
+</td>
+
+</tr>
+</tbody>
+</table>
+<% if (task.syozoku=="土曜日") && task.completed && task.created_at-(task.created_at.wday-1).days <= Time.now && Time.now < task.created_at-(task.created_at.wday-7).days%>
+<% dcnt+=1 %>
+<% elsif (task.syozoku=="日曜日") && task.completed && task.created_at-(task.created_at.wday-1).days <= Time.now && Time.now < task.created_at-(task.created_at.wday-7).days%>
+<% scnt+=1 %>
+<% end %>
+<% end %>
+
+<a name="count">
+<section class="hero is-link is-large">
+  <div class="hero-body">
+  <div class="container has-text-center">
+    <p class="title">
+      <%=(Time.now-(Time.now.wday-6).days).strftime("%Y年%-m月%-d日")%>の土曜日の参加予定者数は<%=dcnt %>人<br><br><br>
+      <%=(Time.now-(Time.now.wday-7).days).strftime("%Y年%-m月%-d日")%>の日曜日の参加予定者数は<%=scnt %>人
+    </p>
+    </div>
+    
+  </div>
+</section>
+</a>

@@ -1,0 +1,29 @@
+
+
+
+<section class="hero is-info is-large">
+  <div class="hero-body">
+  <div class="container has-text-center">
+  <p class="title">
+    <%= current_user.name%>は、
+<% if @task.completed %>
+    <%= @task.syozoku %>に参加する予定です
+<% else %>
+    参加しません
+<% end %>
+<br><br>
+    </p>
+    <p class="subtitle">
+    <%= link_to task_path(@task), method: :delete, data: {confirm: "参加確認を取り消しますか？"}, class: "button is-text" do %>
+                      <span class="panel-icon">
+                        <i class="fas fa-trash"></i>
+                      </span>
+                      参加確認登録を取り消す
+                    <% end %>
+    <br>
+    <%= link_to "編集画面へ", edit_task_path(@task),class:"button is-text" %>
+    </p>
+    </div>
+    
+  </div>
+</section>

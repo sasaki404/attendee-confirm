@@ -1,0 +1,19 @@
+<section class="hero is-success">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        登録者一覧
+      </h1>
+    </div>
+  </div>
+</section>
+
+<% @users.each do |user|%>
+    <div class="box has-text-centered">
+    <font size="6"><%= user.name %></font>
+    <% if user.id==current_user.id %>
+    <br>
+    <%= link_to "ユーザー登録を取り消す",user_path(current_user),method: :delete,class:"button is-waring is-light" %>
+    <% end %>
+    </div>
+<% end %>
